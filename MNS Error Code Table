@@ -1,42 +1,39 @@
-# MNS Error Code Table
+# Basic OSS concepts
+This section introduces the basic concepts of OSS.
 
-|Error Code|Error Description|HTTP Status Code|
-|---|---|---|
-|AccessDenied|The OwnerId  that your Access Key Id associated to is forbidden for this operation.|	403|
-|InvalidAccessKeyId	|The AccessKey Id you provided is not exist.|	403|
-|InternalError	|Interal error.	|500|
-|InvalidAuthorizationHeader	|The Authorization header format is invalid.|	400|
-|InvalidDateHeader	|The Date header format is invalid.	|400|
-|InvalidArgument|	The XML you provided did not validate against our published schema, caused by Element① Element.|400|
-|InvalidArgument|	The value of Element②should between Low③ and High④ seconds/bytes.|400|
-|InvalidDegist|	The Content-MD5 you specified is invalid.	|400|
-|InvalidRequestURL|	Http request URL format invalid. 	|400|
-|InvalidQueryString|	Http request URL contains invalid querystring item "Element⑤".|400|
-|MalformedXML	|The XML you provided was not well-formed.	|400|
-|MissingAuthorizationHeader	|Authorization header is required.	|400|
-|MissingDateHeader	|Date header is required.|	400|
-|MissingReceiptHandle|ReceiptHandle is required.|	400|
-|MissingVisibilityTimeout|	VisibilityTimeout is required.	|400|
-|MessageNotExist|	Message not exist.|	404|
-|QueueAlreadyExist|	The queue you want to create is already exist.|409|
-|QueueDeletedRecently	|The queue you want to create is deleted recently.|	400|
-|InvalidQueueName|The queue name you provided is invalid. QueueName should start with letter and contain only letter, digit  or \- .	|400|
-|QueueNameLengthError|	Queue name length should between 1 and 256.|	400|
-|QueueNotExist|	The queue name you provided is not exist.|	404|
-|ReceiptHandleError|	The receipt handle you provide is not valid.|	400|
-|SignatureDoesNotMatch|	The request signature we calculated does not match the signature you provided. Check your key and signing method.|403|
-|TimeExpired|The http request you sent is expired.|	408|
-|QpsLimitExceeded |The qps limit of the queue is exceeded ⑥| 400|
+## Object
+An object (also known as a file) is a discrete unit of data. 
 
+An object is composed of:
+- Metadata, known as Object Meta, which is a key-value pair that expresses the object's attributes, such as its last modification time and size, as well as user-defined information 
+- User data, known as Data 
+- A unique object name, known as a Key 
 
-**Note:**
- ①  and ②  indicate the name of the XML element in the request content.
+The size of an object will vary depending on the upload method. Multipart Upload supports objects of up to 48.8 TB. Other upload methods only support objects of up to 5 GB.
 
- ③  indicates the lower limit of a parameter in MNS.
+An object's lifecycle starts from when it has been successfully uploaded, and ends when it has been deleted. During an object's lifecycle, its information cannot be changed. If you upload an object with a duplicate name in a bucket, it will overwrite the existing one. Therefore, unlike the file system, OSS does not allow users to modify only part of an object.
 
- ④  indicates the upper limit of a parameter in MNS.
+OSS provides the [Append Upload](~~31851~~) function, which allows users to continually append data to the end of an object.
 
- ⑤  indicates the QueryString element in the request URL.
+The name of an object must comply with the following rules: 
+- It must use UTF-8 encoding.
+- It must be between 1-1023 bytes in length.
+- It cannot start with a backslash "/" or forward slash "\".
 
- ⑥  indicates that the upper limit of qps for a single MNS queue is 5k.
- 
+>**NOTE:** Object names are case sensitive. 
+
+##Bucket
+A bucket is a virtual division of object storage that, unlike file systems, manages objects in a flat structure. 
+
+Bucket properties are as follows:
+- All objects must belong to a bucket, and during an object's lifecycle it remains directly affiliated with the corresponding bucket.
+- A user can have multiple buckets, with each bucket able to contain an unlimited number of objects.
+- You can set and modify the attributes of a bucket for region and object access control and object lifecycle management. These attributes apply to all objects in the bucket. 
+- You can create different buckets to perform different management functions. 
+
+The name of a bucket must comply with the following rules:
+- It can only contain lower-case letters, digits, and hyphens (-). 
+- It must start and end with a lower-case letter or number.
+- It must be between 3-63 bytes in length.
+- It must be globally unique within the OSS. 
+
