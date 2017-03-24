@@ -52,58 +52,52 @@ Alibaba Cloud VPC provides you with a separate VRouter and VSwitch for better VP
   
  -----------------------------------**************************--------------******************---------------**********
  
- # Product Introduction
+製品の概要
 
-Virtual Private Cloud (VPC) helps you establish an isolated network environment based on Alibaba Cloud. You have full control over your own VPC, including choosing a preferred IP address range, CIDR block, route table, and gateway. In addition, you can establish a customizable network environment by connecting your VPC to your traditional data center through a physical connection/VPN, achieving smooth application migration to the cloud.
+このドキュメントには次のトピックが含まれています。
 
-**Difference Between a VPC and a Classic Cloud**
+VPCの概要
+基本的なアーキテクチャ
+VPCのメリット
 
-* The products of classic network type are uniformly deployed in Alibaba Cloud&apos;s public infrastructure network, whose planning and management are Alibaba Cloud&apos;s responsibility. These products are more suitable for customers who have high ease-of-use requirements.
-* VPC enables you to establish a customizable isolated private cloud on Alibaba Cloud&apos;s basic network and define the network topology and IP address of this VPC. Compared with the classic cloud, the VPC is more suitable for customers that require and able to manage their clouds.
+VPCの概要
 
-**Regions with the VPC Service Available**
+Alibaba Cloud仮想プライベートクラウド（VPC）は、Alibaba Cloudに設置されたプライベートネットワークです。Alibaba Cloudの他の仮想ネットワークと論理的に分離されています。Alibaba Cloud VPCを使用すると、独自のVPCでAlibaba Cloudリソースを起動して使用することができます。
 
-Asia-Pacific (Singapore), South China 1 (Shenzhen), North China 2 (Beijing), East China 2 (Shanghai), East US (Virginia), Hong Kong, East China 1 (Hangzhou), and West US (Silicon Valley)
+Alibaba Cloud VPCを完全に制御できます。たとえば、IPアドレス範囲を選択したり、VPCをサブネットに分割したり、ルーティングテーブルやネットワークゲートウェイを設定することができます。さらに、物理接続またはVPNを使用してVPCをオンプレミスネットワークに接続して、オンデマンドのカスタマイズ可能なネットワーク環境を構築することもできます。これにより、少ない労力でアプリケーションをAlibaba Cloudにスムーズに移行できます。
 
-The complete list of regions is available on the console.
+1
 
-## Product Comparison
 
-<table>
-	<tr>
-		<td>Function Point</td>
-		<td>Classic Cloud</td>
-		<td>VPC</td>
-	</tr>
-	<tr>
-		<td>L2 logical isolation</td>
-		<td>No</td>
-		<td>Yes</td>
-	</tr>
-	<tr>
-		<td>Customized CIDR block</td>
-		<td>No</td>
-		<td>Yes</td>
-	</tr>
-	<tr>
-		<td>Private IP addresses</td>
-		<td>Intra-classic cloud unique</td>
-		<td>Intra-VPC unique, but inter-VPC duplicable</td>
-	</tr>
-	<tr>
-		<td>Customer VPN</td>
-		<td>No</td>
-		<td>Yes</td>
-	</tr>
-	<tr>
-		<td>Instance communication</td>
-		<td>Allowed for instances of the same account and region</td>
-		<td>Allowed for instances within the same VPC, but not between VPCs</td>
-	</tr>
-	<tr>
-		<td>Customer NAT gateway</td>
-		<td>No</td>
-		<td>Yes</td>
-	</tr>
-	
-</table>
+基本的なアーキテクチャ
+
+主流のトンネリング技術に基づいて、仮想プライベートクラウドは仮想ネットワークを隔離します。各VPCには固有のトンネルIDがあり、トンネルIDは仮想ネットワークに対応しています。VPC内のECSインスタンス間で送信されたデータパケットは、一意のトンネルIDでカプセル化され、伝送のために物理ネットワークに送信されます。異なるVPC内のECSインスタンスのトンネルIDが異なるため、2つのトンネル間の通信が不可能になり、2つのネットワーク間のデータ分離が実現します。
+
+Alibaba Cloud開発チームは、トンネリング技術に基づいて、VSwitch、SDN（Software Defined Network）、およびハードウェアゲートウェイを独自に開発しました。これらのソフトウェアとハ​​ードウェアデバイスのサポートであるAlibaba Cloud Virtual Private Cloudが登場しました。VSスイッチ、ゲートウェイ、およびコントローラは、VPCの3つの重要なコンポーネントです。VSスイッチとゲートウェイは、データ転送の主な経路です。コントローラは自己開発プロトコルを使用してルーティングテーブルをVSwitchとゲートウェイに転送します。コンフィギュレーションチャネルとデータチャネルはアーキテクチャ全体で分離されています。
+
+Alibaba Cloud VPCは、より良いVPC設定のための別個のVRouterとVSwitchを提供し、より自由度を与えます。イントラネットセキュリティの需要が高い場合は、セキュリティグループを使用してVPCアクセス制御を細かく管理できます。デフォルトでは、ECSインスタンスは、同じVPC内の他のECSインスタンス（または他のクラウドサービス）としか通信できません。Alibaba Cloudが提供するElastic IPアドレスおよびExpressConnect機能を使用して、VPCをインターネット、他のVPC、およびご自分のネットワークに接続することができます。
+
+1
+
+
+VPCのメリット
+
+セキュリティの分離
+
+異なるユーザーのクラウドサーバーは、異なるVPCに配置されています。
+異なるVPCはトンネルIDによって隔離されています。VSwitchとVRouterを使用すると、従来のネットワーク環境と同じように、VPCをサブネットに分割できます。同じサブネット内の異なるクラウドサーバはVSwitchを使用して相互に通信し、VPC内の異なるサブネットにあるクラウドサーバはVRouterを使用して相互に通信します。
+異なるVPC間のイントラネットは完全に分離されており、IP（Elastic IPおよびNAT IP）の外部マッピングによってのみ相互接続できます。
+クラウドサーバのIPパケットはトンネリングIDでカプセル化されているため、クラウドサーバのデータリンク層（2層MACアドレス）は物理ネットワークに転送されません。したがって、異なるクラウドサーバーの2層ネットワークが分離されます。言い換えれば、異なるVPC間の2層ネットワークが分離されている。
+VPC内のECSインスタンスは、セキュリティグループファイアウォールを使用してネットワークアクセスを制御します。これは第3層の分離です。
+アクセス制御
+
+セキュリティグループは、柔軟なアクセス制御ルールを提供します。
+政府および金融ユーザーのセキュリティ分離ルールに準拠しています。
+ソフトウェア定義ネットワーク（SDN）
+
+SDNはカスタマイズされたネットワーク構成を提供します。
+管理業務はリアルタイムで有効になります。
+さまざまなネットワーク接続方法
+
+ソフトウェアVPNがサポートされています。
+リース回線接続がサポートされています。
