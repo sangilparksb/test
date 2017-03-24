@@ -11,17 +11,22 @@ An object is composed of:
 - A unique object name, known as a Key 
 
 The size of an object will vary depending on the upload method. Multipart Upload supports objects of up to 48.8 TB. Other upload methods only support objects of up to 5 GB.
+オブジェクトサイズは、アップロード方法によって異なります。マルチパートアップロードでは、48.8 TB までのオブジェクトがサポートされます。それ以外のアップロード方法でサポートされる最大サイズは、5 GB です。
 
 An object's lifecycle starts from when it has been successfully uploaded, and ends when it has been deleted. During an object's lifecycle, its information cannot be changed. If you upload an object with a duplicate name in a bucket, it will overwrite the existing one. Therefore, unlike the file system, OSS does not allow users to modify only part of an object.
+オブジェクトのライフサイクルは、オブジェクトが正しくアップロードされたときに始まり、削除されたときに終了します。ライフサイクルの途中でオブジェクト情報を変更することはできません。同じ名前のオブジェクトを複数回アップロードすると、既存のオブジェクトは上書きされます。したがって、ファイルシステムとは異なり、OSS ではオブジェクト/ファイルを部分的に変更することはできません。
 
 OSS provides the [Append Upload](~~31851~~) function, which allows users to continually append data to the end of an object.
+OSS の Append アップロード機能を使用すると、オブジェクトの末尾にデータをつなげて付加することができます。
 
 The name of an object must comply with the following rules: 
-- It must use UTF-8 encoding.
-- It must be between 1-1023 bytes in length.
-- It cannot start with a backslash "/" or forward slash "\".
+オブジェクト命名規則
+  
+- It must use UTF-8 encoding.                                  UTF-8 エンコーディングを使用します。
+- It must be between 1-1023 bytes in length.                   長さは 1 ～ 1023 バイトでなければなりません。
+- It cannot start with a backslash "/" or forward slash "\".   “/“ または “\” で開始することはできません。
 
->**NOTE:** Object names are case sensitive. 
+>**NOTE:** Object names are case sensitive. オブジェクト名では、大文字小文字が区別されます。特に断りがない限り、ここではファイルとオブジェクトは同じ意味を持ちます。
 
 ##Bucket
 A bucket is a virtual division of object storage that, unlike file systems, manages objects in a flat structure. 
