@@ -125,4 +125,4 @@ Comparisons between OSS and file system concepts are as follows:
 |Object Meta|Metadata of a file that includes the object's attributes and user-defined information|
 |Data|Object information (typically user-defined information)|
 |Key|Unique object name|
-|ACL (Access Control List)|Permissions for buckets or files|
+|ACL (Access Control List)|Permissions for buckets or files||
