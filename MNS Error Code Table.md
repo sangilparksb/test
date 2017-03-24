@@ -88,7 +88,6 @@ The limitation of OSS is that saved objects cannot be modified. If an object nee
 
 Comparisons between OSS and file system concepts are as follows:
 
-
 | OSS | File system |
 |----------|---------|
 | Object | File |
@@ -109,8 +108,9 @@ Comparisons between OSS and file system concepts are as follows:
 | N/A | Renaming an object |
 
 ##OSS Glossary
+
 | Term       | Definition   |    
-| :--------   | :-----  |
+|:--------|:-----|
 | Object     | A discrete unit of data|  
 | Bucket       |  A virtual division of object storage |
 | Endpoint | The domain name for OSS access|
